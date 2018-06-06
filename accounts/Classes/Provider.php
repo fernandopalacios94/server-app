@@ -9,7 +9,7 @@ class  Provider{
 	public $address = '';
 	public $email   = '';
 
-	public function __construct($data){
+	public function __construct($data = null){
 		if(isset($data['id'])){
 			$this->id       = $data['id'];
 			$this->name     = $data['name'];
@@ -36,7 +36,7 @@ class  Provider{
 		}
 	}
 
-	public function getAll(){
+	public static function getAll(){
 		require('../database.php');
 		$query  = 'SELECT * FROM providers';
 		$result = mysqli_query($conn, $query);
@@ -49,6 +49,18 @@ class  Provider{
 		} else {
 			echo json_encode(['message' => 'Error de Conexión' , 'type' => 'error']);
 		}
+	}
+	public static function find($id){
+		require('../database.php');
+		$query = 'SELECT * FROM providers WHERE id='.$id;		
+		$result = mysqli_query($conn, $query);		
+		if ($result) {
+			$row = mysqli_fetch_assoc($result);			
+			$provider = new Provider($row);
+			return $provider;
+		} else {
+			echo json_encode(['message' => 'Error de Conexión' , 'type' => 'error']);
+		}		
 	}
 }
 

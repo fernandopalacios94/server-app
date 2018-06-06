@@ -23,9 +23,14 @@
 	function index($request){
 		if(isset($request['ws'])){
 
-		}else{
-			$providers = Provider::getAll();
-			echo json_encode($providers);
+		}else{			
+			if(isset($request['id'])){
+				$provider = Provider::find($request['id']);
+				echo json_encode($provider);
+			}else{
+				$providers = Provider::getAll();
+				echo json_encode($providers);
+			}
 		}
 	}
 
